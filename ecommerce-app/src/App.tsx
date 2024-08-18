@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React  from 'react';
+import { BrowserRouter as Router , Routes , Route } from 'react-router-dom';
+import LoginPage from './components/Login/LoginPage';
 import SignUpPage from './components/SignUP/SignUpPage';
 
 function App() {
@@ -6,11 +8,12 @@ function App() {
 
   return (
     <>
-      {/* <h1 className='text-3xl font-bold underline'>
-        Hello world
-      </h1> */}
-      <SignUpPage />
-      
+      <Router>
+        <Routes>
+          <Route path="/" element={<SignUpPage />} />
+          <Route path='/login' element={<LoginPage />} />
+        </Routes>
+      </Router>
     </>
   )
 }

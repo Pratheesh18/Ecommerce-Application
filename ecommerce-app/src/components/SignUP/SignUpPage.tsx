@@ -3,7 +3,7 @@ import {useForm,SubmitHandler} from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
-
+import { Link , useNavigate } from 'react-router-dom';
 
 interface SignUpFormData{
     firstName : string;
@@ -25,11 +25,13 @@ const schema = yup.object().shape({
 
 const SignUpPage : React.FC = () => {
     const {register,handleSubmit,formState:{errors}} = useForm<SignUpFormData>({resolver:yupResolver(schema)});
+    const navigate = useNavigate();
 
     const onSubmit : SubmitHandler<SignUpFormData> = async (data) => {
         try{
             await axios.post('http://localhost:5000/api/auth/register',data);
             console.log("Sign Up data",data);
+            navigate('/login');
         }catch(error){
             console.error("Error during registration",error);
         }
@@ -100,6 +102,10 @@ const SignUpPage : React.FC = () => {
                            {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
                           </div>
                          </div>
+                        <div className='text-right mb-4'>
+                          <Link to="/login" className='text-blue-500 hover:underline'> Already Have An Account ? Login
+                          </Link>
+                        </div>
                         <button
                           type="submit"
                           className="w-full py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition"

@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const authRoutes = require('./Routes/authRoutes');
 
 const app = express();
@@ -7,6 +8,7 @@ const PORT = 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 app.use(express.json());
+app.use(cors());
 app.use('/api/auth',authRoutes);
 
 mongoose.connect(MONGO_URI,{
