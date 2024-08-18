@@ -3,6 +3,7 @@ import {useForm,SubmitHandler} from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
+import {toast} from 'react-toastify';
 import { Link , useNavigate } from 'react-router-dom';
 
 interface SignUpFormData{
@@ -31,6 +32,7 @@ const SignUpPage : React.FC = () => {
         try{
             await axios.post('http://localhost:5000/api/auth/register',data);
             console.log("Sign Up data",data);
+            toast.success('Registration Successful' , {position:'bottom-right'})
             navigate('/login');
         }catch(error){
             console.error("Error during registration",error);
