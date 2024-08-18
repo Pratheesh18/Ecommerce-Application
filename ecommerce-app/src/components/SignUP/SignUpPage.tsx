@@ -38,47 +38,77 @@ const SignUpPage : React.FC = () => {
 
     return(
        <>
-          <div className='flex justify-center items-center h-screen g=bg-gray-100'>
-            <div className='w-full max-w-md p-8 bg-white shadow-md rounded'>
-                <h2 className='text-2xl font-bold mb-6'> Sign UP </h2>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className='mb-4'>
-                        <label className='block text-sm font-medium mb-2'> First Name </label>
-                        <input type='text' {...register('firstName')} className='w-full px-4 py-2 border rounded' />
-                        {errors.firstName && <p className='text-red-500 text-sm'> {errors.firstName.message} </p>}
-                    </div>
-                    <div className='mb-4'>
-                        <label className='block text-sm font-medium mb-2'> Last Name </label>
-                        <input type='text' {...register('lastName')} className='w-full px-4 py-2 border rounded' />
-                        {errors.lastName && <p className='text-red-500 text-sm'> {errors.lastName.message} </p>}
-                    </div>
-                    <div className='mb-4'>
-                        <label className='block text-sm font-medium mb-2'>  Username </label>
-                        <input type='text' {...register('userName')} className='w-full px-4 py-2 border rounded' />
-                        {errors.userName && <p className='text-red-500 text-sm'> {errors.userName.message} </p>}
-                    </div>
-                    <div className='mb-4'>
-                        <label className='block text-sm font-medium mb-2'>  Email </label>
-                        <input type='text' {...register('email')} className='w-full px-4 py-2 border rounded' />
-                        {errors.email && <p className='text-red-500 text-sm'> {errors.email.message} </p>}
-                    </div>
-                    <div className='mb-4'>
-                        <label className='block text-sm font-medium mb-2'>  Password </label>
-                        <input type='password' {...register('password')} className='w-full px-4 py-2 border rounded' />
-                        {errors.password && <p className='text-red-500 text-sm'> {errors.password.message} </p>}
-                    </div>
-                    <div className='mb-4'>
-                        <label className='block text-sm font-medium mb-2'>  Confirm Password </label>
-                        <input type='password' {...register('confirmPassword')} className='w-full px-4 py-2 border rounded' />
-                        {errors.confirmPassword && <p className='text-red-500 text-sm'> {errors.confirmPassword.message} </p>}
-                    </div>
-                    <button type='submit' className='w-full py-2 bg-blue text-white font-bold rounded'>
-                        Sign Up
-                    </button>
-
+          <div className="flex justify-center items-center h-screen bg-gray-100">
+             <div className="w-full max-w-4xl p-8 bg-white shadow-md rounded">
+                <h2 className="flex justify-center text-2xl font-bold mb-6 text-blue-500">Sign Up</h2>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                   <div className="flex flex-wrap gap-4 mb-4">
+                      <div className="flex-1 min-w-[200px]">
+                         <label className="block text-sm font-medium mb-2">First Name</label>
+                         <input
+                            type="text"
+                            {...register('firstName')}
+                            className="w-full px-4 py-2 border rounded"
+                         />
+                         {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}
+                      </div>
+                      <div className="flex-1 min-w-[200px]">
+                           <label className="block text-sm font-medium mb-2">Last Name</label>
+                            <input
+                                type="text"
+                                {...register('lastName')}
+                                className="w-full px-4 py-2 border rounded"
+                            />
+                            {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName.message}</p>}
+                      </div>
+                      <div className="flex-1 min-w-[200px]">
+                            <label className="block text-sm font-medium mb-2">Username</label>
+                            <input
+                                type="text"
+                                {...register('userName')}
+                                className="w-full px-4 py-2 border rounded"
+                            />
+                            {errors.userName && <p className="text-red-500 text-sm">{errors.userName.message}</p>}
+                      </div>
+                      <div className="flex-1 min-w-[200px]">
+                            <label className="block text-sm font-medium mb-2">Email</label>
+                            <input
+                                type="email"
+                                {...register('email')}
+                                className="w-full px-4 py-2 border rounded"
+                            />
+                            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+                      </div>
+                      </div>
+                        <div className="flex flex-wrap gap-4 mb-4">
+                            <div className="flex-1 min-w-[200px]">
+                            <label className="block text-sm font-medium mb-2">Password</label>
+                            <input
+                                type="password"
+                                {...register('password')}
+                                className="w-full px-4 py-2 border rounded"
+                            />
+                            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+                            </div>
+                        <div className="flex-1 min-w-[200px]">
+                            <label className="block text-sm font-medium mb-2">Confirm Password</label>
+                            <input
+                              type="password"
+                              {...register('confirmPassword')}
+                              className="w-full px-4 py-2 border rounded"
+                            />
+                           {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
+                          </div>
+                         </div>
+                        <button
+                          type="submit"
+                          className="w-full py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition"
+                        >
+                          Sign Up
+                        </button>
                 </form>
+              </div>
             </div>
-          </div>
        </>
     )
 
