@@ -36,6 +36,7 @@ const SignUpPage : React.FC = () => {
             navigate('/login');
         }catch(error){
             console.error("Error during registration",error);
+            toast.error('Error in Registration ',{position:'bottom-right'});
         }
 
     }
