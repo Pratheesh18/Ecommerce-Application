@@ -27,9 +27,10 @@ const LoginPage : React.FC = () => {
     const onSubmit = async (data:LoginFormData) => {
         try{
             const res = await axios.post('http://localhost:5000/api/auth/login',data);
-            localStorage.setItem('accessToken',res.data.accessToken);
-            localStorage.setItem('refreshToken',res.data.refreshToken);
+            sessionStorage.setItem('accessToken',res.data.accessToken);
+            sessionStorage.setItem('refreshToken',res.data.refreshToken);
             toast.success('Login Successful' , {position:'bottom-right'});
+            navigate('/dashboard');
         }catch(error){
             console.error('Login Failed ',error);
             toast.error('Error ! Failed to Login',{position:'bottom-right'});

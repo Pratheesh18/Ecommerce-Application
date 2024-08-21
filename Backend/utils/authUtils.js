@@ -17,12 +17,31 @@ const comparePasswords = async (password,hash) => {
     return bcrypt.compare(password,hash);
 };
 
-const generateAccessToken = (userId) => {
-    return jwt.sign({userId},JWT_ACCESS_SECRET,{expiresIn:ACCESS_TOKEN_EXPIRES_IN})
-}
+const generateAccessToken = (user) => {
+    return jwt.sign(
+        {
+            userId : user._id,
+            firstName : user.firstName,
+            lastName : user.lastName,
+            userName : user.userName,
+            email : user.email,
+        },
+        JWT_ACCESS_SECRET,
+        {expiresIn:ACCESS_TOKEN_EXPIRES_IN}
+    )
+};
 
-const generateRefreshToken = (userId) => {
-    return jwt.sign({userId},JWT_REFRESH_SECRET,{expiresIn:REFRESH_TOKEN_EXPIRES_IN});
+const generateRefreshToken = (user) => {
+    return jwt.sign(
+        {
+            userId : user._id,
+            firstName : user.firstName,
+            lastName : user.lastName,
+            email : user.email,
+        },
+        JWT_REFRESH_SECRET,
+        {expiresIn:REFRESH_TOKEN_EXPIRES_IN}
+    )
 };
 
 

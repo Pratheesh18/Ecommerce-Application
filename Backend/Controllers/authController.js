@@ -43,8 +43,8 @@ const login = async (req,res) => {
             return res.status(400).json({message:"Invalide Credentials"});
         }
 
-        const accessToken = generateAccessToken(user._id.toString());
-        const refreshToken = generateRefreshToken(user._id.toString());
+        const accessToken = generateAccessToken(user);
+        const refreshToken = generateRefreshToken(user);
 
         res.json({accessToken,refreshToken});
     }catch(error){
@@ -67,7 +67,7 @@ const refreshToken = async (req,res) => {
             return res.status(501).json({message:'Invalid Refresh Token'});
         }
 
-        const newAccessToken = generateAccessToken(user._id.toString());
+        const newAccessToken = generateAccessToken(user);
         res.json({accessToken:newAccessToken});
     }catch(error){
         res.status(500).json({message:'Server error',error});
