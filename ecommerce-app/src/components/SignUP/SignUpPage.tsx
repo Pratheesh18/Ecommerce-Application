@@ -1,10 +1,13 @@
-import React from 'react';
+import React , {useState} from 'react';
 import {useForm,SubmitHandler} from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 import { Link , useNavigate } from 'react-router-dom';
+import {Icon} from 'react-icons-kit'
+import {eyeOff} from 'react-icons-kit/feather/eyeOff';
+import {eye} from 'react-icons-kit/feather/eye';
 
 interface SignUpFormData{
     firstName : string;
@@ -27,6 +30,8 @@ const schema = yup.object().shape({
 const SignUpPage : React.FC = () => {
     const {register,handleSubmit,formState:{errors}} = useForm<SignUpFormData>({resolver:yupResolver(schema)});
     const navigate = useNavigate();
+    const [showPassword,setShowPassword] = useState(false);
+    const [showConfirmPassword,setShowConfirmPassword] = useState(false);
 
     const onSubmit : SubmitHandler<SignUpFormData> = async (data) => {
         try{
@@ -36,9 +41,17 @@ const SignUpPage : React.FC = () => {
             navigate('/login');
         }catch(error){
             console.error("Error during registration",error);
-            toast.error('Error in Registration ',{position:'bottom-right'});
+            toast.error('Error in Registration ',{position:'bottom-right'});    
         }
 
+    }
+    
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    }
+
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
     }
 
     return(
@@ -86,26 +99,32 @@ const SignUpPage : React.FC = () => {
                       </div>
                       </div>
                         <div className="flex flex-wrap gap-4 mb-4">
-                            <div className="flex-1 min-w-[200px]">
+                            <div className="flex-1 min-w-[200px] relative">
                             <label className="block text-sm font-medium mb-2">Password</label>
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 {...register('password')}
                                 className="w-full px-4 py-2 border rounded"
                             />
+                            <span className='absolute right-4 top-9 cursor-pointer' onClick={togglePasswordVisibility}>
+                                <Icon icon={showPassword ? eyeOff : eye} size={20} />
+                            </span>
                             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
                             </div>
-                        <div className="flex-1 min-w-[200px]">
+                        <div className="flex-1 min-w-[200px] relative">
                             <label className="block text-sm font-medium mb-2">Confirm Password</label>
                             <input
-                              type="password"
+                              type={showConfirmPassword ? "text" : "password"}
                               {...register('confirmPassword')}
                               className="w-full px-4 py-2 border rounded"
                             />
+                            <span className='absolute right-4 top-9 cursor-pointer' onClick={toggleConfirmPasswordVisibility}>
+                                <Icon icon={showConfirmPassword ? eyeOff : eye} size={20} />
+                            </span>
                            {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
                           </div>
                          </div>
-                        <div className='text-right mb-4'>
+                        <div className=' flex flex-col items-center justify-between space-y-4 text-right mb-4'>
                           <Link to="/login" className='text-blue-500 hover:underline'> Already Have An Account ? Login
                           </Link>
                         </div>
