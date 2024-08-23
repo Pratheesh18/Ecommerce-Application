@@ -34,7 +34,7 @@ const LoginPage : React.FC = () => {
             sessionStorage.setItem('accessToken',res.data.accessToken);
             sessionStorage.setItem('refreshToken',res.data.refreshToken);
             toast.success('Login Successful' , {position:'bottom-right'});
-            navigate('/dashboard');
+            navigate(`/dashboard/${res.data.userName}`);
         }catch(error){
             console.error('Login Failed ',error);
             toast.error('Error ! Failed to Login',{position:'bottom-right'});

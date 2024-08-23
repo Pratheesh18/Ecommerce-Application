@@ -46,7 +46,7 @@ const login = async (req,res) => {
         const accessToken = generateAccessToken(user);
         const refreshToken = generateRefreshToken(user);
 
-        res.json({accessToken,refreshToken});
+        res.json({accessToken,refreshToken , userName:user.userName});
     }catch(error){
         res.status(500).json({message:'Server Error',error});
     }

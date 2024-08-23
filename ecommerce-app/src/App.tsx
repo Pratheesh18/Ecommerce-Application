@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SignUpPage />} />
           <Route path='/login' element={<LoginPage />} />
-          <Route path='/dashboard' element={<Dashboard />} /> 
+          <Route path='/dashboard/:userName' element={<Dashboard />} /> 
         </Routes>
       </Router>
       <ToastContainer hideProgressBar={true} autoClose={2000} position='bottom-right' />
