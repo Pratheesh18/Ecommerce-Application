@@ -1,16 +1,25 @@
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
+const uploadPath = path.join(__dirname,'uploads/');
+
+if (!fs.existsSync(uploadPath)) {
+    fs.mkdirSync(uploadPath, { recursive: true });
+    console.log(`Created uploads directory at: ${uploadPath}`);
+} else {
+    console.log(`Uploads directory already exists at: ${uploadPath}`);
+}
 
 const storage = multer.diskStorage({
-    destination: (req,res,cb) => {
-        cb(null,'uploads/')
+    destination: (req, file, cb) => {
+        cb(null, uploadPath); // Use absolute path to the uploads directory
     },
-    filename : (req,file,cb) => {
-        cb(null,`${Date.now()} - ${path.basename(file.originalname)}`);
+    filename: (req, file, cb) => {
+        const uniqueName = `${Date.now()}-${path.basename(file.originalname)}`;
+        cb(null, uniqueName);
     }
 });
-
 const fileFilter = (req,file,cb) => {
     const filetypes = /jpeg|jpg|png/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -19,7 +28,7 @@ const fileFilter = (req,file,cb) => {
     if(mimetype && extname){
         return cb(null,true);
     }else{
-        cb('Error : Images Only!');
+        cb(new Error('Error : Images Only!'));
     }
 };
 
