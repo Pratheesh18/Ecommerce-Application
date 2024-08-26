@@ -1,5 +1,5 @@
 import React , {useState,useEffect} from 'react';
-import { Button , Dialog , DialogActions,DialogContent,DialogTitle,Typography, Grid, Card, CardMedia, CardContent  } from '@mui/material';
+import { Button , Dialog , DialogActions,DialogContent,DialogTitle,Typography, Grid, Card, CardMedia, CardContent, CardActions  } from '@mui/material';
 import AddProduct from './AddProduct';
 import axios from 'axios';
 
@@ -7,7 +7,7 @@ interface Product {
     _id:string;
     name : string;
     price : number;
-    imageUrl:string;
+    image:string;
 }
 
 const Dashboard : React.FC = () => {
@@ -30,18 +30,29 @@ const Dashboard : React.FC = () => {
 
     }
 
+    useEffect(() => {
+        fetchProducts();
+    },[])
+
     const fetchProducts = async () => {
         try{
             const response = await axios.get('http://localhost:5000/api/products/getAll');
             setProducts(response.data);
+            console.log("Product",products)
         }catch(error){
             console.error('Error fetching products',error);
         }
-    }
+    };
 
-    useEffect(() => {
-        fetchProducts();
-    },[])
+    const handleDelete = async (productId:string) => {
+        try{
+            await axios.delete(`http://localhost:5000/api/products/delete/${productId}`);
+            setProducts(products.filter(product => product._id !== productId))
+        }catch(error){
+            console.error('Error deleting product ',error);
+        }
+    };
+   
 
     return(
         <>
@@ -59,13 +70,18 @@ const Dashboard : React.FC = () => {
                     {products.map((product) => (
                         <Grid item xs={12} sm={6} md={4} key={product._id}>
                             <Card>
-                                <CardMedia component="img" height="140" image={`http://localhost:5000/uploads/${product.imageUrl}`} alt={product.name} />
+                                <CardMedia component="img" height="140" width="150" image={`http://localhost:5000${product.image}`} alt={product.name} />
                                 <CardContent>
                                     <Typography variant="h6"> {product.name} </Typography>
                                     <Typography variant='body2' color="textSecondary">
                                         ${product.price}
                                     </Typography>
                                 </CardContent>
+                                <CardActions>
+                                    <Button color='error' onClick={() => handleDelete(product._id)}>
+                                        Delete
+                                    </Button>
+                                </CardActions>
                             </Card>
                         </Grid>
                     ))}
