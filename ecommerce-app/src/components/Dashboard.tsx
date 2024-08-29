@@ -71,8 +71,8 @@
                     <Grid container spacing={4}>
                         {products.map((product) => (
                             <Grid item xs={12} sm={6} md={4} key={product._id}>
-                                <Card>
-                                    <CardMedia component="img" height="140" width="150" image={`http://localhost:5000${product.image}`} alt={product.name} />
+                                <Card className='h-full flex flex-col justify-between'>
+                                    <CardMedia component="img" height="200" style={{objectFit:'cover'}} image={`http://localhost:5000${product.image}`} alt={product.name} />
                                     <CardContent>
                                         <Typography variant="h6"> {product.name} </Typography>
                                         <Typography variant='body2' color="textSecondary">
@@ -91,7 +91,7 @@
                 </div>
             </div>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle> Add Product </DialogTitle>
+                <DialogTitle className='flex justify-center align-center'> Add Product </DialogTitle>
                 <DialogContent>
                     <AddProduct onSubmitSuccess={handleFormSubmit} />
                 </DialogContent>

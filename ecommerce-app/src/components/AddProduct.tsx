@@ -67,8 +67,8 @@ const AddProduct : React.FC<AddProductProps> = ({onSubmitSuccess}) => {
       };
 
       return(
-        <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data' className='space-y-4'>
-          <div className='flex flex-col'>
+        <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data' className='space-y-6 p-6 bg-white rounded-lg shadow-md'>
+          <div className='flex flex-col space-y-4'>
             <TextField label="Product Name" variant='outlined' fullWidth {...register('name')} error={!!errors.name} helperText={errors.name?.message} className='mb-4' />
             <TextField label="Price" type='number' variant='outlined' fullWidth {...register('price')} error={!!errors?.price} helperText={errors.price?.message} className='mb-4' />
             <TextField label="Quantity" type='number' variant='outlined' fullWidth {...register('quantity')} error={!!errors?.quantity} helperText={errors.quantity?.message} className='mb-4' />

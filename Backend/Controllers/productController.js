@@ -54,8 +54,39 @@ const deleteProduct = async (req,res) => {
     }
 };
 
+const updateProduct = async (req,res) => {
+    try{
+        const productId = req.params.id;
+        const {name , price , quantity} = req.body;
+
+        const product = await Product.findById(productId);
+        if(!product){
+            return res.status(404).json({message:'Product not found'});
+        }
+
+        if(req.file){
+            const imagePath = path.join(__dirname,'..',product.image);
+            if(fs.existsSync(imagePath)){
+                fs.unlinkSync(imagePath);
+            }
+            product.image = `/uploads/${req.file.filename}`;
+        }
+
+        product.name = name || product.name;
+        product.price = price || product.price;
+        product.quantity = quantity || product.quantity;
+
+        await product.save();
+        res.status(200).json({message:'Product updated successfully',product});
+    }catch(error){
+        console.error('Error updating product ',error);
+        res.status(500).json({message:'Server error',error})
+    }
+}
+
 module.exports = {
     addProduct,
     getAllProducts,
-    deleteProduct
+    deleteProduct,
+    updateProduct,
 };
