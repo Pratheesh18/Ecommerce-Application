@@ -2,8 +2,9 @@
     import { Button , Dialog , DialogActions,DialogContent,DialogTitle,Typography, Grid, Card, CardMedia, CardContent, CardActions , TextField  } from '@mui/material';
     import AddProduct from './AddProduct';
     import axios from 'axios';
+    import LazyLoad from 'react-lazyload';
 
-    interface Product {
+    interface Product { //defining a shape of an object
         _id:string;
         name : string;
         price : number;
@@ -30,8 +31,6 @@
             fetchProducts();
 
         }
-
-      
 
         const fetchProducts = async () => {
             try{
@@ -72,18 +71,12 @@
 
         const debouncedSearch = useMemo(() => debounce(handleSearch,300),[]);
 
-        // const filteredProducts = useMemo(() => {
-        //     if(!searchTerm) return products;
-        //     return products.filter(product => {
-        //         product.name.toLowerCase().includes(searchTerm.toLowerCase())
-        //     })
-        // },[products,searchTerm]);
 
         const filteredProducts = useMemo(() => {
             const filtered = products.filter(product =>
                 product.name.toLowerCase().includes(searchTerm.toLowerCase())
             );
-            console.log("Filtered Products:", filtered); // Log filtered products
+            console.log("Filtered Products:", filtered); 
             return filtered;
         }, [products, searchTerm]);
     
@@ -105,7 +98,9 @@
                         {filteredProducts.map((product) => (
                             <Grid item xs={12} sm={6} md={4} key={product._id}>
                                 <Card className='h-full flex flex-col justify-between'>
-                                    <CardMedia component="img" height="200" style={{objectFit:'cover'}} image={`http://localhost:5000${product.image}`} loading='lazy' alt={product.name} />
+                                    <LazyLoad height={200} offset={100}>
+                                         <CardMedia component="img" height="200" style={{objectFit:'cover'}} image={`http://localhost:5000${product.image}`} loading='lazy' alt={product.name} />
+                                    </LazyLoad>
                                     <CardContent>
                                         <Typography variant="h6"> {product.name} </Typography>
                                         <Typography variant='body2' color="textSecondary">
