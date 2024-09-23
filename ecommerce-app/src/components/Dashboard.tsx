@@ -15,6 +15,8 @@
         const [open,setOpen] = useState(false);
         const [products,setProducts] = useState<Product[]>([]);
         const [searchTerm,setSearchTerm] = useState<string>('');
+        const [currentPage , setCurrentPage] = useState<number>(1);
+        const [totalPages,setTotalPages] = useState<number>(1);
 
 
         
@@ -32,11 +34,21 @@
 
         }
 
-        const fetchProducts = async () => {
+        const fetchProducts = async (page:number) => {
             try{
-                const response = await axios.get('http://localhost:5000/api/products/getAll');
-                setProducts(response.data);
-                console.log("Product",response.data)
+                const response = await axios.get('http://localhost:5000/api/products/getAll',{
+                    params : {page},
+                });
+                console.log("API response" , response.data);
+                const products = response.data.products;
+                const totalPages = response.data.totalPages;
+
+                console.log("Product",products)
+                console.log("Pages",totalPages);
+
+                setProducts(products);
+                setTotalPages(totalPages);
+              
             }catch(error){
                 console.error('Error fetching products',error);
             }
@@ -52,8 +64,8 @@
         };
 
         useEffect(() => {
-            fetchProducts();
-        },[]);
+            fetchProducts(currentPage);
+        },[currentPage]);
 
         const debounce = <T extends (...args:any[]) => void>(func:T,delay:number) => {
             let timeoutId : ReturnType<typeof setTimeout>;
@@ -79,6 +91,18 @@
             console.log("Filtered Products:", filtered); 
             return filtered;
         }, [products, searchTerm]);
+
+        const handleNextPage = () => {
+            if(currentPage < totalPages){
+                setCurrentPage((prevPage) => prevPage + 1);
+            }
+        };
+
+        const handlePreviousPage = () => {
+            if(currentPage > 1){
+                setCurrentPage((prevPage) => prevPage - 1);
+            }
+        };
     
 
         return(
@@ -115,6 +139,17 @@
                                 </Card>
                             </Grid>
                         ))}
+                        <div className='flex justify-between mt-4'>
+                            <Button disabled={currentPage === 1} onClick={handlePreviousPage}>
+                                Previous
+                            </Button>
+                            <Typography>
+                                Page {currentPage} of {totalPages}
+                            </Typography>
+                            <Button disabled={currentPage === totalPages} onClick={handleNextPage}>
+                                Next
+                            </Button>
+                        </div>
                     </Grid>
                 </div>
             </div>

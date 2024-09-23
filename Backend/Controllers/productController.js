@@ -25,8 +25,18 @@ const addProduct = async (req,res) => {
 
 const getAllProducts = async (req,res) => {
     try{
-        const products = await Product.find();
-        res.json(products);
+        const page = parseInt(req.query.page) || 1;
+        const limit = 5;
+        const skip = (page-1) * limit;
+        const products = await Product.find().skip(skip).limit(limit);
+        const totalProducts = await Product.countDocuments();
+        const totalPages = Math.ceil(totalProducts/limit);
+        res.status(200).json({
+            products,
+            currentPage:page,
+            totalPages,
+            totalProducts,
+        });
     }catch(error){
         console.error("Error retrieving products " , error);
         res.status(500).json({message:'Server error'});
